@@ -294,9 +294,7 @@ int soNaFolha;
 tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
 {
     if (raiz == NULL)
-    {
         return NULL;
-    }
     
     if (chave == raiz->chaves[contador])
     {
@@ -306,9 +304,7 @@ tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
         {
             soNaFolha = FALSE;
             if (raiz->filhos[0]->filhos[0] == NULL)
-            {
                 return raiz;
-            }
             else
             {
                 tipoNo* aux = raiz;
@@ -325,16 +321,12 @@ tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
     }
     
     if (contador == raiz->chaves[0] && raiz->filhos[0] == NULL)
-    {
         return NULL;
-    }
     
     else
     {
         if (chave < raiz->chaves[contador])
-        {
             return buscaNoVetor(raiz->filhos[contador-1], chave, 1);
-        }
         
         contador++;
         if (contador > raiz->chaves[0])
@@ -346,12 +338,19 @@ tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
 
 void removedoVetor(int chaves[], int chave, int contador)
 {
-    while (contador < chaves[0])
+    if (chave == contador)
     {
-        chaves[contador] = chaves[contador+1];
-        contador++;
+        chaves[0]--;
     }
-    chaves[0]--;
+    else
+    {
+        while (contador < chaves[0])
+        {
+            chaves[contador] = chaves[contador+1];
+            contador++;
+        }
+        chaves[0]--;
+    }
 }
 
 
@@ -374,6 +373,51 @@ tipoNo* casoUm(tipoNo* raiz, int chave)
     return raiz;
 }
 
+int BuscaAntecessor(tipoNo* raiz, int valor)
+{
+    int contador = 1;
+    while (raiz->chaves[contador] != valor)
+        contador++;
+    
+    return raiz->chaves[contador-1];
+    
+}
+
+tipoNo* mudaIndices(tipoNo* raiz, tipoNo* pagina, int valor, int contador)
+{
+    int valorSubstituto = BuscaAntecessor(pagina, valor);
+    
+    if (raiz == NULL)
+        return NULL;
+    
+    if (valor == raiz->chaves[contador])
+    {
+        if (raiz == pagina)
+        {
+            raiz = casoUm(raiz, valor);
+        }
+        else
+        {
+            raiz->chaves[contador] = valorSubstituto;
+            return mudaIndices(raiz->filhos[contador-1], pagina, valor, 1);
+        }
+    }
+    else
+    {
+        if (valor > raiz->chaves[contador])
+        {
+            contador++;
+            return mudaIndices(raiz, pagina, valor, contador);
+        }
+        else if (valor < raiz->chaves[contador])
+        {
+            return mudaIndices(raiz->filhos[contador-1], pagina, valor, 1);
+        }
+    }
+    return raiz;
+}
+
+/*
 tipoNo* buscaNo(tipoNo*raiz, int valorZero, int contador)
 {
     if (valorZero < raiz->chaves[contador])
@@ -396,33 +440,31 @@ tipoNo* concatenaDuasPaginas(tipoNo* raiz)
 {
     //tem q encontrar o pai
 }
-
-tipoNo* casoDois(tipoNo* raiz, int chave)
-{
-    
-    
-    return raiz;
-}
-
+*/
 
 
 BPlus* Remove(BPlus* BPlus, int chave)
 {
     tipoNo* raiz = buscaNoVetor(BPlus->raiz, chave, 1);
     
-    if (BPlus->raiz == NULL)
+    if (raiz == NULL)
     {
         printf("A árvore está vazia!");
         return NULL;
     }
     
     
+    if (soNaFolha == TRUE)
+        raiz = casoUm(raiz, chave);
+    else
+        BPlus->raiz = mudaIndices(BPlus->raiz, raiz, chave, 1);
+    
+    /*
+     espaço para tratar a concatenação
+     */
+    
     return BPlus;
 }
-
-
-
-
 
 
 
@@ -444,6 +486,7 @@ int main(void){
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 1594);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 23);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 91);
+    //arvoreBPlus=Remove(arvoreBPlus, 91);
     imprimeArvore(arvoreBPlus);
     
     return 0;
