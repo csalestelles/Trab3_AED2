@@ -289,6 +289,7 @@ void imprimeArvore(BPlus* BPlus){
  
  ____________________________________________________
  */
+int soNaFolha;
 
 tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
 {
@@ -299,6 +300,27 @@ tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
     
     if (chave == raiz->chaves[contador])
     {
+        if (raiz->filhos[0] == NULL)
+            soNaFolha = TRUE;
+        else
+        {
+            soNaFolha = FALSE;
+            if (raiz->filhos[0]->filhos[0] == NULL)
+            {
+                return raiz;
+            }
+            else
+            {
+                tipoNo* aux = raiz;
+                
+                while (raiz->filhos[0]->filhos[0] != NULL)
+                {
+                    aux = raiz->filhos[contador-1];
+                    return buscaNoVetor(aux, chave, 1);
+                }
+            }
+        }
+        
         return raiz;
     }
     
@@ -316,7 +338,7 @@ tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
         
         contador++;
         if (contador > raiz->chaves[0])
-            return buscaNoVetor(raiz->filhos[9], chave, 1);
+            return buscaNoVetor(raiz->filhos[contador-1], chave, 1);
         
         return buscaNoVetor(raiz, chave, contador);
     }
