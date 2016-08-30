@@ -23,6 +23,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CDE7D2D81D74E04E00C3AC77 /* valoresInserir.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = valoresInserir.txt; sourceTree = "<group>"; };
+		CDE7D2D91D74E04E00C3AC77 /* valoresRemover.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = valoresRemover.txt; sourceTree = "<group>"; };
 		CDF81DC11D74B5360044692D /* Trab3_AED2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Trab3_AED2; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF81DC41D74B5360044692D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				CDF81DC41D74B5360044692D /* main.c */,
+				CDE7D2D81D74E04E00C3AC77 /* valoresInserir.txt */,
+				CDE7D2D91D74E04E00C3AC77 /* valoresRemover.txt */,
 			);
 			path = Trab3_AED2;
 			sourceTree = "<group>";
@@ -239,6 +243,7 @@
 				CDF81DCA1D74B5360044692D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

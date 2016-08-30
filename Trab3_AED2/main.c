@@ -1,11 +1,3 @@
-//
-//  main.c
-//  Trab3_AED2
-//
-//  Created by Caio Arthur on 8/29/16.
-//  Copyright © 2016 Caio Arthur. All rights reserved.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +27,7 @@ typedef struct tipoLista{
 //B+
 typedef struct tipoNo{
     int chaves[ORDEM+1];//Não é ordem-1 pq o vetor tem uma posição a mais para servir como contador
-    struct tipoNo *filhos[ORDEM];
+    struct tipoNo *filhos[ORDEM+1];
     struct tipoNo *prox;
 }tipoNo;
 
@@ -71,7 +63,7 @@ tipoNo* criaNo(int valor, int posicao){
     tipoNo *novoNo=(tipoNo*)malloc(sizeof(tipoNo));
     novoNo->chaves[posicao]=valor;
     novoNo->chaves[0]=1;
-    while(contador<ORDEM){
+    while(contador<ORDEM+1){
         novoNo->filhos[contador]=NULL;
         contador++;
     }
@@ -289,8 +281,131 @@ void imprimeArvore(BPlus* BPlus){
     printf("Quantidade de chaves do vetor igual a:%d\n",qtdChaves);
 }
 
+
+/*___________________________________________________
+ 
+ 
+                      MEUS CÓDIGOS
+ 
+ ____________________________________________________
+ */
+
+tipoNo* buscaNoVetor(tipoNo* raiz, int chave, int contador)
+{
+    if (raiz == NULL)
+    {
+        return NULL;
+    }
+    
+    if (chave == raiz->chaves[contador])
+    {
+        return raiz;
+    }
+    
+    if (contador == raiz->chaves[0] && raiz->filhos[0] == NULL)
+    {
+        return NULL;
+    }
+    
+    else
+    {
+        if (chave < raiz->chaves[contador])
+        {
+            return buscaNoVetor(raiz->filhos[contador-1], chave, 1);
+        }
+        
+        contador++;
+        if (contador > raiz->chaves[0])
+            return buscaNoVetor(raiz->filhos[9], chave, 1);
+        
+        return buscaNoVetor(raiz, chave, contador);
+    }
+}
+
+void removedoVetor(int chaves[], int chave, int contador)
+{
+    while (contador < chaves[0])
+    {
+        chaves[contador] = chaves[contador+1];
+        contador++;
+    }
+    chaves[0]--;
+}
+
+
+tipoNo* casoUm(tipoNo* raiz, int chave)
+{
+    if (raiz->filhos[0] == NULL)
+    {
+        int contador = 1;
+        
+        while (contador <= raiz->chaves[0])
+        {
+            if (chave == raiz->chaves[contador])
+            {
+                removedoVetor(raiz->chaves, chave, contador);
+            }
+            else
+                contador++;
+        }
+    }
+    return raiz;
+}
+
+tipoNo* buscaNo(tipoNo*raiz, int valorZero, int contador)
+{
+    if (valorZero < raiz->chaves[contador])
+    {
+        if (valorZero == raiz->filhos[contador-1]->chaves[1])
+        {
+            return raiz->filhos[contador-1];
+        }
+        return buscaNo(raiz->filhos[contador-1], valorZero, 1);
+    }
+    else
+    {
+        contador++;
+        return buscaNo(raiz, valorZero, contador);
+    }
+    
+}
+
+tipoNo* concatenaDuasPaginas(tipoNo* raiz)
+{
+    //tem q encontrar o pai
+}
+
+tipoNo* casoDois(tipoNo* raiz, int chave)
+{
+    
+    
+    return raiz;
+}
+
+
+
+BPlus* Remove(BPlus* BPlus, int chave)
+{
+    tipoNo* raiz = buscaNoVetor(BPlus->raiz, chave, 1);
+    
+    if (BPlus->raiz == NULL)
+    {
+        printf("A árvore está vazia!");
+        return NULL;
+    }
+    
+    
+    return BPlus;
+}
+
+
+
+
+
+
+
 int main(void){
-    int opcao;
+    //int opcao;
     tipoLista *valoresInserir=criarLista();
     tipoLista *valoresRemover=criarLista();
     BPlus *arvoreBPlus=criaBPlus();
@@ -305,7 +420,7 @@ int main(void){
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 34);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 142);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 1594);
-    arvoreBPlus=InsereNaBPlus(arvoreBPlus, 023);
+    arvoreBPlus=InsereNaBPlus(arvoreBPlus, 23);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 91);
     imprimeArvore(arvoreBPlus);
     
