@@ -458,83 +458,46 @@ int nivelDaPag(tipoNo* paginaRaiz, tipoNo* pagina)
     return alturaDaPagina(paginaRaiz) - alturaDaPagina(pagina);
 }
 
+int encontraIndice(float valor)
+{
+    float acumulador = 0.0;
+    int contador = 0;
+    if (valor == acumulador)
+    {
+        return 3;              //CORRIGIR PARA 10 FILHOS
+    }
+    
+    while (acumulador != valor)
+    {
+        acumulador = acumulador + 0.25;
+        contador++;
+    }
+    return contador - 1;
+}
 
 int indiceDoFilho(tipoNo* paginaRaiz, tipoNo* pagina, int contador)
 {
     tipoNo* aux = paginaRaiz;
-    int buscador = pagina->chaves[1];
+    int valorFinal;
+    float resto;
     
-    if (contador > paginaRaiz->chaves[0])
-    {
-        return contador - 1;
-    }
-    
-    if (buscador < paginaRaiz->chaves[contador])
-    {
-        return indiceDoFilho(paginaRaiz->filhos[contador-1], pagina, 1);
-    }
-    else if (buscador > paginaRaiz->chaves[contador])
-    {
-        contador++;
-        return indiceDoFilho(paginaRaiz, pagina, contador) + 1;
-    }
-    
-    /*
     while (contador < nivelDaPag(paginaRaiz, pagina))
     {
         aux = aux->filhos[0];
         contador++;
     }
-    contador = 0;
+    contador = 1;
+    
     while (aux != pagina)
     {
-        if () {
-            <#statements#>
-        }
         aux = aux->prox;
         contador++;
     }
     
+    resto = contador/MAX;
+    valorFinal = encontraIndice(resto);
     
-    int buscador = pagina->chaves[1];
-    tipoNo* aux = pagina;
-    tipoNo* auxDois = paginaRaiz;
-    
-    if (pagina == paginaRaiz->filhos[contador-1])
-    {
-        return contador-1;
-    }
-    else if (paginaRaiz->filhos[contador-1] != NULL)
-    {
-        if (<#condition#>) {
-            <#statements#>
-        }
-        return indiceDoFilho(paginaRaiz->filhos[contador-1], pagina, contador);
-    }
-    contador++;
-    
-    return indiceDoFilho(paginaRaiz, pagina, contador);
-    
-    
- 
-    int buscador = pagina->chaves[1];
-    tipoNo* raiz = arvB->raiz;
-    
-    if (buscador == raiz->chaves[contador])
-    {
-        if (raiz->filhos[0] == NULL)
-            return contador;
-        else
-        {
-            if (raiz->filhos[0]->filhos[0])
-                return contador-1;
-        }
-    }
-    if (buscador < raiz->chaves[contador])
-    {
-        return indiceDaPagina(raiz->filhos[contador-1], pagina, 1);
-    }
- */
+    return valorFinal;
 }
 
 tipoNo* deletePagina(tipoNo* pagina)
