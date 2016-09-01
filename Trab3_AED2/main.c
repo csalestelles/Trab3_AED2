@@ -434,13 +434,137 @@ tipoNo* buscaNo(tipoNo*raiz, int valorZero, int contador)
         return buscaNo(raiz, valorZero, contador);
     }
     
+}*/
+
+int contadorGlobal = 1;
+int numDeFilhos = 0;
+
+int alturaDaPagina(tipoNo* pagina)
+{
+    int Altura = 0;
+    tipoNo* aux = pagina;
+    
+    while (aux->filhos[Altura] != NULL)
+    {
+        aux = aux->filhos[Altura];
+        Altura++;
+    }
+    
+    return Altura;
 }
 
-tipoNo* concatenaDuasPaginas(tipoNo* raiz)
+int nivelDaPag(tipoNo* paginaRaiz, tipoNo* pagina)
+{
+    return alturaDaPagina(paginaRaiz) - alturaDaPagina(pagina);
+}
+
+
+int indiceDoFilho(tipoNo* paginaRaiz, tipoNo* pagina, int contador)
+{
+    tipoNo* aux = paginaRaiz;
+    int buscador = pagina->chaves[1];
+    
+    if (contador > paginaRaiz->chaves[0])
+    {
+        return contador - 1;
+    }
+    
+    if (buscador < paginaRaiz->chaves[contador])
+    {
+        return indiceDoFilho(paginaRaiz->filhos[contador-1], pagina, 1);
+    }
+    else if (buscador > paginaRaiz->chaves[contador])
+    {
+        contador++;
+        return indiceDoFilho(paginaRaiz, pagina, contador) + 1;
+    }
+    
+    /*
+    while (contador < nivelDaPag(paginaRaiz, pagina))
+    {
+        aux = aux->filhos[0];
+        contador++;
+    }
+    contador = 0;
+    while (aux != pagina)
+    {
+        if () {
+            <#statements#>
+        }
+        aux = aux->prox;
+        contador++;
+    }
+    
+    
+    int buscador = pagina->chaves[1];
+    tipoNo* aux = pagina;
+    tipoNo* auxDois = paginaRaiz;
+    
+    if (pagina == paginaRaiz->filhos[contador-1])
+    {
+        return contador-1;
+    }
+    else if (paginaRaiz->filhos[contador-1] != NULL)
+    {
+        if (<#condition#>) {
+            <#statements#>
+        }
+        return indiceDoFilho(paginaRaiz->filhos[contador-1], pagina, contador);
+    }
+    contador++;
+    
+    return indiceDoFilho(paginaRaiz, pagina, contador);
+    
+    
+ 
+    int buscador = pagina->chaves[1];
+    tipoNo* raiz = arvB->raiz;
+    
+    if (buscador == raiz->chaves[contador])
+    {
+        if (raiz->filhos[0] == NULL)
+            return contador;
+        else
+        {
+            if (raiz->filhos[0]->filhos[0])
+                return contador-1;
+        }
+    }
+    if (buscador < raiz->chaves[contador])
+    {
+        return indiceDaPagina(raiz->filhos[contador-1], pagina, 1);
+    }
+ */
+}
+
+tipoNo* deletePagina(tipoNo* pagina)
+{
+    while (pagina->prox != NULL)
+    {
+        pagina = pagina->prox;
+    }
+}
+
+
+tipoNo* concatenaDuasPaginas(tipoNo* pagina, tipoNo* pagSeguinte)
 {
     //tem q encontrar o pai
+    int numDeChaves = pagina->chaves[0] + pagSeguinte->chaves[0];
+    int ultimaChave = pagina->chaves[pagina->chaves[0]];
+    
+    if (numDeChaves < 9)
+    {
+        while (pagina->chaves[0] + contadorGlobal < numDeChaves)
+        {
+            pagina->chaves[pagina->chaves[0] + contadorGlobal] = pagSeguinte->chaves[contadorGlobal];
+            contadorGlobal++;
+        }
+    }
+    contadorGlobal = 1;
+    
+    return pagina;
 }
-*/
+
 
 
 BPlus* Remove(BPlus* BPlus, int chave)
@@ -486,7 +610,8 @@ int main(void){
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 1594);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 23);
     arvoreBPlus=InsereNaBPlus(arvoreBPlus, 91);
-    //arvoreBPlus=Remove(arvoreBPlus, 91);
+    arvoreBPlus=Remove(arvoreBPlus, 91);
+    //arvoreBPlus=Remove(arvoreBPlus, 15);
     imprimeArvore(arvoreBPlus);
     
     return 0;
